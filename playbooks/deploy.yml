@@ -6,3 +6,6 @@
   roles:
     - docker
     - openhim
+- hosts: perf
+  roles:
+    - k6

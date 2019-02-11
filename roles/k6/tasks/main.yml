@@ -1,0 +1,16 @@
+---
+- name: add k6 apt key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 379CE192D401AB61
+    state: present
+
+- name: add k6 apt repository
+  apt_repository:
+    repo: 'deb https://dl.bintray.com/loadimpact/deb stable main'
+    state: present
+
+- name: install k6
+  package:
+    name: k6
+    state: present
