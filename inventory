@@ -6,6 +6,10 @@
 # App servers go here
 # e.g. 127.0.0.1 ansible_user=root
 
+[mediator]
+# Mediator servers go here
+# e.g. 127.0.0.1 ansible_user=root
+
 [perf]
-# App servers go here
+# Performance testing servers go here
 # e.g. 127.0.0.1 ansible_user=root

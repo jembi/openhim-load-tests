@@ -1,5 +1,5 @@
 ---
-- name: setup openhim-core container
+- name: set up openhim-core container
   docker_container:
     name: openhim-core
     image: jembi/openhim-core:{{ openhim_core_version }}

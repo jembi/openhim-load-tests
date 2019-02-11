@@ -1,0 +1,25 @@
+---
+- name: set up openhim-mediator-performance container
+  docker_container:
+    name: openhim-mediator-performance
+    image: jembi/openhim-mediator-performance
+    state: started
+    pull: yes
+    restart_policy: unless-stopped
+    published_ports:
+      # HTTP port
+      - "{{ ansible_host }}:8082:8082"
+      # HTTPS port
+      - "{{ ansible_host }}:8443:8443"
+      # TCP body port
+      - "{{ ansible_host }}:9000:9000"
+      # TLS body port
+      - "{{ ansible_host }}:9001:9001"
+      # TCP delay port
+      - "{{ ansible_host }}:9002:9002"
+      # TLS delay port
+      - "{{ ansible_host }}:9003:9003"
+      # TCP immediate port
+      - "{{ ansible_host }}:9004:9004"
+      # TLS immediate port
+      - "{{ ansible_host }}:9005:9005"
