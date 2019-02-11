@@ -1,0 +1,7 @@
+---
+- hosts: db
+  roles:
+    - mongodb
+- hosts: app
+  roles:
+    - docker
