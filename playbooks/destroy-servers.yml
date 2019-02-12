@@ -1,0 +1,22 @@
+- hosts: digitalocean
+  vars:
+    ssh_file: ~/.ssh/id_do
+    token_file: zooloo-token.txt
+    drop_state: absent
+    droplets:
+      - droplet-one
+      - droplet-two
+  tasks:
+    - name: get the digitalocean token
+      command: cat {{ token_file }}
+      register: do_token
+
+    - name: destroy droplets
+      digital_ocean: >
+        state={{ drop_state }}
+        command=droplet
+        name={{ item }}
+        unique_name=yes
+        api_token={{ do_token.stdout }}
+      with_items: 
+        - "{{ droplets }}"
