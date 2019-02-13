@@ -34,8 +34,6 @@
     api_token={{ do_token }}
   register: droplet_details
 
-#- debug: msg="{{ droplet_details }}"
-
 - name: create in inventory in memory
   add_host:
     name: "{{ droplet_details.droplet.name }}"
@@ -58,7 +56,6 @@
   tags: inventory_file
   failed_when: inventory_group.rc == 2
   changed_when: inventory_group.rc == 0
-#  when: ansible_inventory_file|length > 0
 
 - name: Add inventory group to inventory file
   become: no
@@ -67,7 +64,6 @@
     line: "[{{ droplet.group }}]"
     state: present
   tags: inventory_file
-#  when: ansible_inventory_file|length > 0 and inventory_group.rc == 1
 
 - name: Add droplet to inventory file
   become: no
@@ -78,5 +74,4 @@
     state: present
     line: "{{ droplet_details.droplet.ip_address }} do_name={{ drop_name }} ansible_host={{ droplet_details.droplet.ip_address }}"
   delegate_to: localhost
-#  when: ansible_inventory_file|length > 0
   tags: inventory_file
