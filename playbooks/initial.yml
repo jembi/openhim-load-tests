@@ -1,0 +1,17 @@
+---
+- hosts: db
+  gather_facts: no
+  roles:
+    - common
+- hosts: app
+  gather_facts: no
+  roles:
+    - common
+- hosts: med
+  gather_facts: no
+  roles:
+    - common
+- hosts: perf
+  gather_facts: no
+  roles:
+    - common

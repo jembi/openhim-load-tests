@@ -2,6 +2,7 @@
 - hosts: localhost
   vars:
     ssh_file: ~/.ssh/id_do
+    new_inventory: new_inventory.ini
     drop_version: 18-04-x64
     drop_size: 512mb
     drop_region: nyc3
@@ -25,6 +26,7 @@
         item_count: 1
         max_count: "{{ curr_role.droplet.count }}"
         droplet: "{{ curr_role.droplet }}"
+        hosts_file: "{{ new_inventory }}" 
       loop: "{{ droplets }}"
       loop_control:
         loop_var: curr_role

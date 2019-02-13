@@ -6,7 +6,7 @@
   roles:
     - docker
     - openhim
-- hosts: mediator
+- hosts: med
   roles:
     - docker
     - mediator

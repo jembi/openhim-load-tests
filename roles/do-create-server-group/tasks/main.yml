@@ -4,5 +4,6 @@
 #  debug: msg="Creating instance {{ item + 1 }} of group {{ droplet.group }}"
   vars:
     current: "{{ item }}"
+    new_host_file: "{{ hosts_file }}"
   loop: "{{ range(0, max_count|int) |list }}"
   when: item_count > 0
