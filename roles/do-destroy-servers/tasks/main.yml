@@ -1,0 +1,10 @@
+---
+# tasks file for do-destroy-servers
+- name: destroy droplets
+  digital_ocean: >
+    state=absent
+    command=droplet
+    name={{ hostvars[item].inventory_hostname }}
+    unique_name=yes
+    api_token={{ do_token }}
+  loop: "{{ groups['created_servers'] }}"

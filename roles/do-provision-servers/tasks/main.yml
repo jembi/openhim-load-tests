@@ -1,0 +1,74 @@
+---
+# tasks file for do-provision-servers
+- set_fact: do_token="{{ lookup('env','DO_API_TOKEN') }}"
+
+- name: ensure ssh key exists
+  command: ssh-keygen -q -t rsa -f {{ ssh_file }} -C "" -N ""
+  args:
+    creates: ~/.ssh/id_do
+
+- name: ensure key exists at DigitalOcean
+  digital_ocean: >
+    state=present
+    command=ssh
+    name=my_ssh_key
+    ssh_pub_key={{ lookup('file', '{{ ssh_file }}.pub') }}
+    api_token={{ do_token }}
+  register: my_ssh_key
+
+- name: create droplets
+  digital_ocean: >
+    state=present
+    command=droplet
+    name={{ item }}
+    unique_name=yes
+    size_id={{ drop_size }}
+    region_id={{ drop_region }}
+    image_id=ubuntu-{{ drop_version }}
+    ssh_key_ids={{ my_ssh_key.ssh_key.id }}
+    api_token={{ do_token }}
+  loop: "{{ droplets }}"
+  register: droplet_details
+
+#- debug: msg="Created machine with id {{ item.droplet.id }} name {{ item.droplet.name }} ip {{ item.droplet.ip_address }}"
+#  loop: "{{ droplet_details.results }}"
+
+- name: create -db in inventory in memory
+  add_host:
+    name: "{{ droplet_details.results[0].droplet.name }}"
+    groups: created_servers, db
+    ansible_ssh_host: "{{ droplet_details.results[0].droplet.ip_address }}"
+    ansible_ssh_user: root
+#        ansible_ssh_private_key_file: "{{ do_ssh_private_key }}"
+  changed_when: false
+  tags: create_droplet
+
+- name: create -med in inventory in memory
+  add_host:
+    name: "{{ droplet_details.results[1].droplet.name }}"
+    groups: created_servers, med
+    ansible_ssh_host: "{{ droplet_details.results[1].droplet.ip_address }}"
+    ansible_ssh_user: root
+#        ansible_ssh_private_key_file: "{{ do_ssh_private_key }}"
+  changed_when: false
+  tags: create_droplet
+
+- name: create -app in inventory in memory
+  add_host:
+    name: "{{ droplet_details.results[2].droplet.name }}"
+    groups: created_servers, app
+    ansible_ssh_host: "{{ droplet_details.results[2].droplet.ip_address }}"
+    ansible_ssh_user: root
+#        ansible_ssh_private_key_file: "{{ do_ssh_private_key }}"
+  changed_when: false
+  tags: create_droplet
+
+- name: create -perf in inventory in memory
+  add_host:
+    name: "{{ droplet_details.results[3].droplet.name }}"
+    groups: created_servers, perf
+    ansible_ssh_host: "{{ droplet_details.results[3].droplet.ip_address }}"
+    ansible_ssh_user: root
+#        ansible_ssh_private_key_file: "{{ do_ssh_private_key }}"
+  changed_when: false
+  tags: create_droplet

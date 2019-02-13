@@ -1,0 +1,19 @@
+- hosts: localhost
+  vars:
+    ssh_file: ~/.ssh/id_do
+    drop_version: 18-04-x64
+    drop_size: 512mb
+    drop_region: sgp1
+    droplets:
+      - droplet-db
+      - droplet-med
+      - droplet-app
+      - droplet-perf
+    inventory_groups:
+      - db
+      - mediator
+      - app
+      - perf
+  roles:
+    - { role: do-provision-servers }
+    - { role: do-destroy-servers }
