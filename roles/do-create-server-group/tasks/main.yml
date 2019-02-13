@@ -1,0 +1,8 @@
+---
+- name: create instance
+  include_tasks: do-create-instance.yml
+#  debug: msg="Creating instance {{ item + 1 }} of group {{ droplet.group }}"
+  vars:
+    current: "{{ item }}"
+  loop: "{{ range(0, max_count|int) |list }}"
+  when: item_count > 0

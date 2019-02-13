@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  vars:
+    ssh_file: ~/.ssh/id_do
+    drop_version: 18-04-x64
+    drop_size: 512mb
+    drop_region: nyc3
+    droplets:
+      - droplet:
+          count: 3
+          group: db
+      - droplet:
+          count: 2
+          group: app
+      - droplet: 
+          count: 1
+          group: med
+      - droplet:
+          count: 1
+          group: perf
+  tasks:
+    - name: create all server groups
+      include_role: name=do-create-server-group
+      vars:
+        item_count: 1
+        max_count: "{{ curr_role.droplet.count }}"
+        droplet: "{{ curr_role.droplet }}"
+      loop: "{{ droplets }}"
+      loop_control:
+        loop_var: curr_role
+
+    - name: destroy all servers
+      include_role: name=do-destroy-servers

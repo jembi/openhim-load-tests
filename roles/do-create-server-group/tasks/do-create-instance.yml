@@ -1,0 +1,45 @@
+---
+# tasks file for do-create-server-group
+- set_fact: do_token="{{ lookup('env','DO_API_TOKEN') }}"
+
+- name: debug create instance
+  debug: msg="Creating instance {{ current + 1 }} of group {{ droplet.group }}"
+
+- name: ensure ssh key exists
+  command: ssh-keygen -q -t rsa -f {{ ssh_file }} -C "" -N ""
+  args:
+    creates: ~/.ssh/id_do
+
+- name: ensure key exists at DigitalOcean
+  digital_ocean: >
+    state=present
+    command=ssh
+    name=my_ssh_key
+    ssh_pub_key={{ lookup('file', '{{ ssh_file }}.pub') }}
+    api_token={{ do_token }}
+  register: my_ssh_key
+
+- name: create droplet
+  digital_ocean: >
+    state=present
+    command=droplet
+    name={{ droplet.group }}-{{ current + 1 }}
+    unique_name=yes
+    size_id={{ drop_size }}
+    region_id={{ drop_region }}
+    image_id=ubuntu-{{ drop_version }}
+    ssh_key_ids={{ my_ssh_key.ssh_key.id }}
+    api_token={{ do_token }}
+  register: droplet_details
+
+#- debug: msg="{{ droplet_details }}"
+
+- name: create in inventory in memory
+  add_host:
+    name: "{{ droplet_details.droplet.name }}"
+    groups: created_servers, {{ droplet.group }}
+    ansible_ssh_host: "{{ droplet_details.droplet.ip_address }}"
+    ansible_ssh_user: root
+  changed_when: false
+  tags: create_droplet
+
