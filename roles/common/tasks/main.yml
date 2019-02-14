@@ -24,25 +24,37 @@
   register: mongoDroplets
   loop: '{{ mongoInstances }}'
 
-- name: create droplets for openhim instances
+- name: create droplet for app instance
   digital_ocean:
         state: present
         command: droplet
-        name: '{{ item.name }}'
+        name: '{{ appInstance }}'
         unique_name: yes
         size_id: 512mb
         ssh_key_ids: '{{ my_ssh_key.ssh_key.id }}'
         region_id: fra1
         image_id: ubuntu-18-04-x64
         api_token: '{{ do_token }}'
-  register: openhimDroplets
-  loop: '{{ openhimInstances }}'
+  register: appDroplet
+
+- name: create droplet for mediator instance
+  digital_ocean:
+        state: present
+        command: droplet
+        name: '{{ mediatorInstance }}'
+        unique_name: yes
+        size_id: 512mb
+        ssh_key_ids: '{{ my_ssh_key.ssh_key.id }}'
+        region_id: fra1
+        image_id: ubuntu-18-04-x64
+        api_token: '{{ do_token }}'
+  register: mediatorDroplet
 
 - name: create a droplet for the server that runs the test
   digital_ocean:
         state: present
         command: droplet
-        name: openhim-perfomance-test-server
+        name: '{{ testingInstance }}'
         unique_name: yes
         size_id: 512mb
         ssh_key_ids: '{{ my_ssh_key.ssh_key.id }}'
@@ -56,41 +68,51 @@
     state: absent
     path: ../inventory/new/hosts
 
-- name: create a new host file - the db servers
+- name: create a new host file
   lineinfile:
     path: ../inventory/new/hosts
     create: yes
-    line: '[dbservers]'
+    line: '[db]'
 
 - name: write ip addressses of the db servers
   lineinfile:
     path: ../inventory/new/hosts
     create: yes
-    line: '{{ item.droplet.ip_address }} ansible_user=root'
+    line: '{{ item.droplet.ip_address }} ansible_user=root do_name={{ item.droplet.name }}'
   loop: '{{ mongoDroplets.results }}'
 
 - lineinfile:
     path: ../inventory/new/hosts
     create: yes
-    line: "\n[openhimservers]"
+    line: "\n[app]"
 
-- name: write ip addressses of the openhim instances
+- name: write ip addresss of the app instance
   lineinfile:
     path: ../inventory/new/hosts
     create: yes
-    line: '{{ item.droplet.ip_address }} ansible_user=root'
-  loop: '{{ openhimDroplets.results }}'
+    line: '{{ appDroplet.droplet.ip_address }} ansible_user=root do_name={{ appDroplet.droplet.name }}'
 
 - lineinfile:
     path: ../inventory/new/hosts
     create: yes
-    line: "\n[perfomanceTestserver]"
+    line: "\n[mediator]"
 
-- name: write ip addressses of the test server
+- name: write ip addresss of the mediator instance
   lineinfile:
     path: ../inventory/new/hosts
     create: yes
-    line: '{{ perfomanceTest.droplet.ip_address }} ansible_user=root'
+    line: '{{ mediatorDroplet.droplet.ip_address }} ansible_user=root do_name={{ mediatorDroplet.droplet.name }}'
+
+- lineinfile:
+    path: ../inventory/new/hosts
+    create: yes
+    line: "\n[perf]"
+
+- name: write ip addresss of the test server
+  lineinfile:
+    path: ../inventory/new/hosts
+    create: yes
+    line: '{{ perfomanceTest.droplet.ip_address }} ansible_user=root do_name={{ perfomanceTest.droplet.name }}'
 
 - name: change the ansible config to point to the new hosts file in inventory/new
   replace:

@@ -3,6 +3,6 @@ mongoInstances:
   - name: mongo-instance-1
   - name: mongo-instance-2
   - name: mongo-instance-3
-openhimInstances:
-  - name: openhim-instance-1
-  - name: openhim-instance-2
+mediatorInstance: mediator-instance
+appInstance: app-instance
+testingInstance: testing-instance
