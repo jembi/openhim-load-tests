@@ -1,0 +1,15 @@
+---
+- hosts: db
+  roles:
+    - mongodb
+- hosts: app
+  roles:
+    - docker
+    - openhim
+- hosts: mediator
+  roles:
+    - docker
+    - mediator
+- hosts: perf
+  roles:
+    - k6

@@ -1,0 +1,18 @@
+---
+- name: set up openhim-core container
+  docker_container:
+    name: openhim-core
+    image: jembi/openhim-core:{{ openhim_core_version }}
+    state: started
+    pull: yes
+    restart_policy: unless-stopped
+    published_ports:
+      # API port
+      - "{{ ansible_host }}:8080:8080"
+      # HTTPS port
+      - "{{ ansible_host }}:5000:5000"
+      # HTTP port
+      - "{{ ansible_host }}:5001:5001"
+    env:
+      mongo_url: "mongodb://{{ groups['db'] | join (',') }}/openhim?replicaSet=rs0"
+      mongo_atnaUrl: "mongodb://{{ groups['db'] | join (',') }}/openhim?replicaSet=rs0"

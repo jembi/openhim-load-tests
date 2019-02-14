@@ -12,3 +12,19 @@ This perfomance test uses servers that are hosted on Digital Ocean. These have t
 
  **Running the above command creates a new host file, and it also changes the ansible config file to point to a new host file**
  **Running this command again fails as the host file will have been changed. To run it again successfully change the *inventory* variable value to *inventory/old***
+
+Python must be installed on the host machines before Ansible can run. On Ubuntu this can be done with:
+
+```sh
+apt update && apt install -y python
+```
+
+## Deploy the services
+
+To deploy the services first setup the servers file and then run:
+
+```sh
+ansible-playbook playbooks/deploy.yml
+```
+
+The MongoDB replica set will need to be initiated once the services have been deployed. This can be done by following the steps found at https://docs.mongodb.com/manual/tutorial/deploy-replica-set/#initiate-the-replica-set.
