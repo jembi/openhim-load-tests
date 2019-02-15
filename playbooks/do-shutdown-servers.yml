@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  tasks:
+    - name: destroy all servers
+      include_role: name=do-destroy-servers
+      vars: 
+        hosts_file: "{{ inventory }}"
