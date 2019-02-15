@@ -13,3 +13,15 @@ ansible-playbook playbooks/deploy.yml
 ```
 
 The MongoDB replica set will need to be initiated once the services have been deployed. This can be done by following the steps found at https://docs.mongodb.com/manual/tutorial/deploy-replica-set/#initiate-the-replica-set.
+
+
+## Destroying the servers
+
+The server provisioning playbook would have produced an `inventory` file containing the ip addresses and droplet names of the 
+provisioned servers. This file will be used to determine which droplets need to be destroyed. 
+
+The destroy process expects the DigitalOcean API token to be assigned to the `DO_API_TOKEN` environment variable.  
+
+```sh
+ansible-playbook playbooks/do-shutdown-servers.yml
+```
