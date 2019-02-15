@@ -1,0 +1,14 @@
+---
+- name: create a droplet for the server that runs the test
+  digital_ocean:
+        state: present
+        command: droplet
+        name: '{{ item.name }}'
+        unique_name: yes
+        size_id: '{{ size_id }}'
+        ssh_key_ids: '{{ my_ssh_key.ssh_key.id }}'
+        region_id: '{{ region_ID }}'
+        image_id: '{{ image_ID }}'
+        api_token: '{{ do_token }}'
+  register: perfomanceTest
+  loop: '{{ testingInstances }}'

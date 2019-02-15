@@ -1,0 +1,5 @@
+---
+appInstances:
+  - name: app-instance
+size_id: 512mb
+image_ID: ubuntu-18-04-x64

@@ -1,8 +1,2 @@
 ---
-mongoInstances:
-  - name: mongo-instance-1
-  - name: mongo-instance-2
-  - name: mongo-instance-3
-mediatorInstance: mediator-instance
-appInstance: app-instance
-testingInstance: testing-instance
+region_ID: fra1
