@@ -1,0 +1,12 @@
+---
+# tasks file for do-destroy-servers
+- set_fact: do_token="{{ lookup('env','DO_API_TOKEN') }}"
+
+- name: destroy droplets
+  digital_ocean: >
+    state=absent
+    command=droplet
+    name={{ hostvars[item]['do_name'] }}
+    unique_name=yes
+    api_token={{ do_token }}
+  loop: "{{ groups['all'] }}"
