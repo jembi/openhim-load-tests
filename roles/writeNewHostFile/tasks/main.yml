@@ -1,0 +1,60 @@
+---
+- name: clean the inventory folder - check if new hosts file exixts and delete it
+  file:
+    state: absent
+    path: '{{ new_host_file_path }}'
+
+- name: create a new host file
+  lineinfile:
+    path: '{{ new_host_file_path }}'
+    create: yes
+    line: '[db]'
+
+- name: write ip addressses of the db servers
+  lineinfile:
+    path: '{{ new_host_file_path }}'
+    create: yes
+    line: '{{ item.droplet.ip_address }} ansible_user=root do_name={{ item.droplet.name }}'
+  loop: '{{ mongoDroplets.results }}'
+
+- lineinfile:
+    path: '{{ new_host_file_path }}'
+    create: yes
+    line: "\n[app]"
+
+- name: write ip addresss of the app instance
+  lineinfile:
+    path: '{{ new_host_file_path }}'
+    create: yes
+    line: '{{ item.droplet.ip_address }} ansible_user=root do_name={{ item.droplet.name }}'
+  loop: '{{ appDroplets.results }}'
+
+- lineinfile:
+    path: '{{ new_host_file_path }}'
+    create: yes
+    line: "\n[mediator]"
+
+- name: write ip addresss of the mediator instance
+  lineinfile:
+    path: '{{ new_host_file_path }}'
+    create: yes
+    line: '{{ item.droplet.ip_address }} ansible_user=root do_name={{ item.droplet.name }}'
+  loop: '{{ mediatorDroplets.results }}'
+
+- lineinfile:
+    path: '{{ new_host_file_path }}'
+    create: yes
+    line: "\n[perf]"
+
+- name: write ip addresss of the test server
+  lineinfile:
+    path: '{{ new_host_file_path }}'
+    create: yes
+    line: '{{ item.droplet.ip_address }} ansible_user=root do_name={{ item.droplet.name }}'
+  loop: '{{ perfomanceTest.results }}'
+
+- name: change the ansible config to point to the new hosts file in inventory/new
+  replace:
+    path: ../ansible.cfg
+    regexp: 'old'
+    replace: 'new'
