@@ -12,14 +12,3 @@
         api_token: '{{ do_token }}'
   register: mediatorDroplets
   loop: '{{ mediatorInstances }}'
-
-- name: install Python 2.x
-  raw: which python || sudo apt-get update && sudo apt-get install -qq -y python-simplejson
-  register: python_check
-  changed_when: not python_check.stdout is search('/usr/bin/python')
-
-- name: install pip
-  apt:
-    name: python-pip
-    state: present
-    update_cache: yes
