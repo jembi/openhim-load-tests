@@ -1,8 +1,11 @@
-Python must be installed on the host machines before Ansible can run. On Ubuntu this can be done with:
+## Setup the target machines after provisioning
+
+Python must be installed on the target machines before Ansible can run:
 
 ```sh
-apt update && apt install -y python
+ansible-playbook playbooks/initial-setup.yml
 ```
+
 
 ## Deploy the services
 

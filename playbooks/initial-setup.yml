@@ -1,0 +1,6 @@
+---
+- hosts: all
+  gather_facts: no 
+  tasks:
+    - name: do initial setup for servers
+      include_role: name=initial-setup
