@@ -17,3 +17,16 @@
       mongo_url: "mongodb://{{ groups['db'] | join (',') }}/openhim?replicaSet=rs0"
       mongo_atnaUrl: "mongodb://{{ groups['db'] | join (',') }}/openhim?replicaSet=rs0"
       api_authenticationTypes: "[\"token\", \"basic\"]"
+- name: configure openhim
+  uri:
+    method: POST
+    url: 'https://{{ groups["app"][0] }}:8080/metadata'
+    status_code: 201
+    body: '{{ lookup("template", "openhim-insert.json") }}'
+    body_format: json
+    user: "root@openhim.org"
+    password: "openhim-password"
+    force_basic_auth: yes
+    validate_certs: no
+  tags:
+    - configuration
