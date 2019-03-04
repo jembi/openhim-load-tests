@@ -14,3 +14,18 @@
   package:
     name: k6
     state: present
+
+- name: create scripts directory
+  file:
+    path: /opt/openhim/
+    state: directory
+  tags:
+    - configuration
+
+- name: download k6 scripts
+  shell: curl -sL https://github.com/jembi/openhim-core-js/archive/{{ performance_scripts_version }}.tar.gz | tar zxvf - --strip-components=1 openhim-core-js-{{ performance_scripts_version }}/performance
+  args:
+    chdir: /opt/openhim/
+    executable: /bin/bash
+  tags:
+    - configuration
