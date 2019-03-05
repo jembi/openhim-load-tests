@@ -15,7 +15,7 @@ This perfomance test uses servers that are hosted on Digital Ocean. These have t
  **Running the above command creates a new host file, and it also changes the ansible config file to point to a new host file**
  **Running this command again fails as the host file will have been changed. To run it again successfully change the *inventory* variable value to *inventory/old***
 
-- Python must be installed on the host machines before Ansible can run. On Ubuntu this can be done with:
+- Verion 2 of python must be installed on the host machines before Ansible can run. On Ubuntu this can be done with:
 
 ```sh
 ansible-playbook playbooks/initial-setup.yml
