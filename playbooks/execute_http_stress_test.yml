@@ -1,0 +1,4 @@
+---
+- hosts: perf
+  roles:
+    - http_stress_test

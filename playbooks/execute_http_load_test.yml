@@ -1,0 +1,4 @@
+---
+- hosts: perf
+  roles:
+    - http_load_test
