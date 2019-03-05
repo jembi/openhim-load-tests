@@ -4,7 +4,9 @@
 This perfomance test uses servers that are hosted on Digital Ocean. These have to be setup.
 
 ### Steps to follow
-- First generate your api access token on digital ocean. Instructions on how to generate a token can be found [here](https://www.digitalocean.com/docs/api/create-personal-access-token/)
+- Install the python package manager, 'pip'
+- Install the Digital Ocean plugin for ansible, 'dopy'. Version >= 0.32
+- Generate your api access token on digital ocean. Instructions on how to generate a token can be found [here](https://www.digitalocean.com/docs/api/create-personal-access-token/)
 - Generate an ssh key and add it to digital ocean. Note the ssh key name (shall be passed in as an environment variable)
 - Run the ansible command in the root directory, and pass the api access token and the ssh key name as environment variables. The environment variables names are *SSH_KEY_NAME* and *DO_API_TOKEN*
 
@@ -33,8 +35,8 @@ The MongoDB replica set will need to be initiated once the services have been de
 
 ## Destroying the servers
 
-The server provisioning playbook would have produced an `inventory` file containing the ip addresses and droplet names of the 
-provisioned servers. This file will be used to determine which droplets need to be destroyed. 
+The server provisioning playbook would have produced an `inventory` file containing the ip addresses and droplet names of the
+provisioned servers. This file will be used to determine which droplets need to be destroyed.
 
 The destroy process expects the DigitalOcean API token to be assigned to the `DO_API_TOKEN` environment variable.  
 
