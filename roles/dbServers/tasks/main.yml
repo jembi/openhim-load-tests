@@ -1,0 +1,14 @@
+---
+- name: create droplets for mongo instances
+  digital_ocean:
+    state: present
+    command: droplet
+    name: '{{ item.name }}'
+    size_id: '{{ size_id }}'
+    unique_name: yes
+    ssh_key_ids: '{{ my_ssh_key.ssh_key.id }}'
+    region_id: '{{ region_ID }}'
+    image_id: '{{ image_ID }}'
+    api_token: '{{ do_token }}'
+  register: mongoDroplets
+  loop: '{{ mongoInstances }}'

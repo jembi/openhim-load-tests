@@ -1,0 +1,9 @@
+---
+- hosts: digitalocean
+  roles:
+    - common
+    - dbServers
+    - mediatorServers
+    - appServers
+    - perfomanceTestServer
+    - writeNewHostFile
