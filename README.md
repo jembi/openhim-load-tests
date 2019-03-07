@@ -4,7 +4,7 @@ These performance tests use virtual hardware hosted on DigitalOcean.
  
 
 
-## Controller (local) machine requirements
+## 1. Controller (local) machine requirements
 
 - Install the python package manager, 'pip'
 - Install the Digital Ocean plugin for ansible, 'dopy'. Version >= 0.32
@@ -12,7 +12,7 @@ These performance tests use virtual hardware hosted on DigitalOcean.
 - Generate an ssh key and add it to digital ocean. Note the ssh key name (shall be passed in as an environment variable)
 
 
-## Provision servers
+## 2. Provision servers
 
 Run the ansible command in the root directory, and pass the api access token and the ssh key name as environment variables. 
 The environment variables names are *SSH_KEY_NAME* and *DO_API_TOKEN*
@@ -21,20 +21,24 @@ The environment variables names are *SSH_KEY_NAME* and *DO_API_TOKEN*
 SSH_KEY_NAME=<do_ssh_key_name> DO_API_TOKEN=<api_token> ansible-playbook playbooks/create_servers.yml
 ```
 
- **Running the above command creates a new host file, and it also changes the ansible config file to point to a new host file**
- **Running this command again fails as the host file will have been changed. To run it again successfully change the *inventory* variable value to *inventory/old***
+ **Running the above command creates a new host file, and it also changes the ansible config file to point to a new host file.**
+
+ **Running this command again fails as the host file will have been changed.**
+
+ **To run it again successfully change the *inventory* variable value to *inventory/old.**
 
 
-## Initial setup for remote servers
+## 3. Initial setup for remote servers
 
-`python` and `pip` must be installed on the host machines in order for Ansible modules to run on remote targets. On Ubuntu this can be done with:
+`python` and `pip` must be installed on the host machines in order for Ansible modules to run on remote targets. 
+On Ubuntu this can be done with:
 
 ```sh
 ansible-playbook playbooks/initial-setup.yml
 ```
 
 
-## Deploy the services
+## 4. Deploy the services
 
 To deploy the services first setup the servers file and then run:
 
@@ -42,10 +46,11 @@ To deploy the services first setup the servers file and then run:
 ansible-playbook --skip-tags configure playbooks/deploy.yml
 ```
 
-The MongoDB replica set will need to be initiated once the services have been deployed. This can be done by following the steps found at https://docs.mongodb.com/manual/tutorial/deploy-replica-set/#initiate-the-replica-set.
+The MongoDB replica set will need to be initiated once the services have been deployed. 
+This can be done by following the steps found at https://docs.mongodb.com/manual/tutorial/deploy-replica-set/#initiate-the-replica-set.
 
 
-## Configure the services
+## 5. Configure the services
 
 After the services have been deployed and the replica set has been initiated they can be configured with:
 
@@ -54,7 +59,7 @@ ansible-playbook --tags configure playbooks/deploy.yml
 ```
 
 
-## Execute the tests
+## 6. Execute the tests
 
 The tests can be executed by running one of:
 
@@ -70,10 +75,11 @@ ansible-playbook playbooks/execute_http_stress_test.yml
 ansible-playbook playbooks/execute_http_volume_test.yml
 ```
 
-Each of these playbooks will start the specified test as a detached process in a Docker container. The results can be seen by looking at the logs of the containers at this point.
+Each of these playbooks will start the specified test as a detached process in a Docker container. 
+The results can be seen by looking at the logs of the containers at this point.
 
 
-## Destroying the servers
+## 7. Destroying the servers
 
 The server provisioning playbook would have produced an `inventory` file containing the ip addresses and droplet names of the
 provisioned servers. This file will be used to determine which droplets need to be destroyed.
