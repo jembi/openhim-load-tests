@@ -1,0 +1,14 @@
+---
+- name: run http volume tests
+  docker_container:
+    name: openhim-http-volume
+    image: loadimpact/k6
+    state: started
+    detach: yes
+    volumes:
+      - /opt/openhim/performance:/opt/openhim/performance:ro
+    command: run /opt/openhim/performance/volume.js
+    env:
+      BASE_URL: "http://{{ groups['app'][0] }}:5001/http"
+  tags:
+    - test

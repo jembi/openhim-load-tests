@@ -1,16 +1,15 @@
 ---
-- name: add k6 apt key
-  apt_key:
-    keyserver: keyserver.ubuntu.com
-    id: 379CE192D401AB61
-    state: present
+- name: create scripts directory
+  file:
+    path: /opt/openhim/
+    state: directory
+  tags:
+    - configuration
 
-- name: add k6 apt repository
-  apt_repository:
-    repo: 'deb https://dl.bintray.com/loadimpact/deb stable main'
-    state: present
-
-- name: install k6
-  package:
-    name: k6
-    state: present
+- name: download k6 scripts
+  shell: curl -sL https://github.com/jembi/openhim-core-js/archive/{{ performance_scripts_version }}.tar.gz | tar zxvf - --strip-components=1 openhim-core-js-{{ performance_scripts_version }}/performance
+  args:
+    chdir: /opt/openhim/
+    executable: /bin/bash
+  tags:
+    - configuration
