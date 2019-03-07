@@ -77,7 +77,7 @@ Each of these playbooks will start the specified test as a detached process in a
 The results can be seen by looking at the logs of the containers at this point.
 
 
-## 7. Destroying the servers
+## 7. Destroy the servers
 
 The server provisioning playbook would have produced an `inventory` file containing the ip addresses and droplet names of the
 provisioned servers. This file will be used to determine which droplets need to be destroyed.
