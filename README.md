@@ -21,11 +21,9 @@ The environment variables names are *SSH_KEY_NAME* and *DO_API_TOKEN*
 SSH_KEY_NAME=<do_ssh_key_name> DO_API_TOKEN=<api_token> ansible-playbook playbooks/create_servers.yml
 ```
 
- **Running the above command creates a new host file, and it also changes the ansible config file to point to a new host file.**
-
- **Running this command again fails as the host file will have been changed.**
-
- **To run it again successfully change the *inventory* variable value to *inventory/old.**
+ **Running the above command creates a new host file, and it also changes the ansible config file to point to a new host file.**  
+ **Running this command again fails as the host file will have been changed.**  
+ **To run it again successfully change the *inventory* variable value to *inventory/old.**  
 
 
 ## 3. Initial setup for remote servers
