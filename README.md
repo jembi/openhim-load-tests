@@ -41,7 +41,7 @@ ansible-playbook playbooks/initial-setup.yml
 To deploy the services first setup the servers file and then run:
 
 ```sh
-ansible-playbook --skip-tags configure playbooks/deploy.yml
+ansible-playbook --skip-tags configuration playbooks/deploy.yml
 ```
 
 The MongoDB replica set will need to be initiated once the services have been deployed. 
@@ -53,7 +53,7 @@ This can be done by following the steps found at https://docs.mongodb.com/manual
 After the services have been deployed and the replica set has been initiated they can be configured with:
 
 ```sh
-ansible-playbook --tags configure playbooks/deploy.yml
+ansible-playbook --tags configuration playbooks/deploy.yml
 ```
 
 
