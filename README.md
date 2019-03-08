@@ -38,17 +38,20 @@ ansible-playbook playbooks/initial-setup.yml
 
 ## 4. Deploy the services
 
+### a. Deploy Docker images to VMs
+
 To deploy the services first setup the servers file and then run:
 
 ```sh
 ansible-playbook --skip-tags configuration playbooks/deploy.yml
 ```
 
+### b. Manually configure MongoDB replicaset
+
 The MongoDB replica set will need to be initiated once the services have been deployed. 
 This can be done by following the steps found at https://docs.mongodb.com/manual/tutorial/deploy-replica-set/#initiate-the-replica-set.
 
-
-## 5. Configure the services
+### c. Configure the services
 
 After the services have been deployed and the replica set has been initiated they can be configured with:
 
@@ -57,7 +60,7 @@ ansible-playbook --tags configuration playbooks/deploy.yml
 ```
 
 
-## 6. Execute the tests
+## 5. Execute the tests
 
 The tests can be executed by running one of:
 
@@ -76,6 +79,22 @@ ansible-playbook playbooks/execute_http_volume_test.yml
 Each of these playbooks will start the specified test as a detached process in a Docker container. 
 The results can be seen by looking at the logs of the containers at this point.
 
+
+## 6. Collect statistics
+
+Collect test output from Docker logs on the performance test machine
+
+```sh
+docker logs openhim-http-stress
+```
+
+```sh
+docker logs openhim-http-volume
+```
+
+```sh
+docker logs openhim-http-load
+```
 
 ## 7. Destroy the servers
 
