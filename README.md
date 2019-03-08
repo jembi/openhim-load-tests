@@ -28,7 +28,7 @@ SSH_KEY_NAME=<do_ssh_key_name> DO_API_TOKEN=<api_token> ansible-playbook playboo
 
 ## 3. Initial setup for remote servers
 
-`python` and `pip` must be installed on the host machines in order for Ansible modules to run on remote targets. 
+`python` (version 2.x) and `pip` must be installed on the host machines in order for Ansible modules to run on remote targets. 
 On Ubuntu this can be done with:
 
 ```sh
