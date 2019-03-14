@@ -8,15 +8,14 @@ These tests run on virtual hardware hosted on DigitalOcean and executed using An
 
 - Install the `python` version 2.x package, if not already installed
 - Install the python package manager `pip`
-- Install the Digital Ocean plugin for ansible, `dopy`. Version >= 0.32
-- Generate your api access token on digital ocean. Instructions on how to generate a token can be found [here](https://www.digitalocean.com/docs/api/create-personal-access-token/)
-- Generate an SSH key and add it to DigitalOcean. Note the SSH key name, which can be passed in on the command line or exported as an environment variable
+- Install the DigitalOcean plugin for ansible, `dopy`. Version >= 0.32
+- Generate your API access token on DigitalOcean. Instructions on how to generate a token can be found [here](https://www.digitalocean.com/docs/api/create-personal-access-token/)
+- Generate an SSH key and add it to DigitalOcean, under the *Security* menu on the Do website. The SSH key name used here must match the a named key in the test executor's `.ssh` directory. The key name can be passed in on the command line to the *create_servers* playbook or exported as an environment variable
 
 
 ## 2. Provision servers
 
-Run the ansible command in the `openhim-performance` directory, passing the api access token and the ssh key name as environment variables. 
-The environment variables are named *SSH_KEY_NAME* and *DO_API_TOKEN*.
+Run the ansible command in the `openhim-performance` directory, passing the API access token (named *DO_API_TOKEN*) and the ssh key name (named *SSH_KEY_NAME*) as environment variables. 
 
 ```sh
 SSH_KEY_NAME=<do_ssh_key_name> DO_API_TOKEN=<api_token> ansible-playbook playbooks/create_servers.yml
