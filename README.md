@@ -10,7 +10,7 @@ These tests run on virtual hardware hosted on DigitalOcean and executed using An
 - Install the python package manager `pip`
 - Install the DigitalOcean plugin for ansible, `dopy`. Version >= 0.32
 - Generate your API access token on DigitalOcean. Instructions on how to generate a token can be found [here](https://www.digitalocean.com/docs/api/create-personal-access-token/)
-- Generate an SSH key and add it to DigitalOcean, under the *Security* menu on the Do website. The SSH key name used here must match the a named key in the test executor's `.ssh` directory. The key name can be passed in on the command line to the *create_servers* playbook or exported as an environment variable
+- Generate an SSH key and add it to DigitalOcean, under the *Security* menu on the DO website. The SSH key name used here must match a named key file in the test executor's `.ssh` directory. The key name can be passed in on the command line to the *create_servers* playbook or exported as an environment variable
 
 
 ## 2. Provision servers
@@ -28,7 +28,7 @@ SSH_KEY_NAME=<do_ssh_key_name> DO_API_TOKEN=<api_token> ansible-playbook playboo
 
 ## 3. Initial setup for remote servers
 
-`python` (version 2.x) and `pip` must be installed on the host machines in order for Ansible modules to run on remote targets. 
+`python` (version 2.x) and `pip` must be installed on the remote hosts in order for Ansible modules to run on those targets. 
 On Ubuntu this can be done with:
 
 ```sh
