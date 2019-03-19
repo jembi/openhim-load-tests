@@ -1,7 +1,5 @@
 ---
 mongoInstances:
   - name: mongo-instance-1
-  - name: mongo-instance-2
-  - name: mongo-instance-3
-size_id: 512mb
+size_id: 1gb
 image_ID: ubuntu-18-04-x64

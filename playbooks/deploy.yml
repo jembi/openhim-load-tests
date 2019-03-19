@@ -12,4 +12,5 @@
     - mediator
 - hosts: perf
   roles:
+    - docker
     - k6
